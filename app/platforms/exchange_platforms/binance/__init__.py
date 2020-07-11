@@ -5,4 +5,8 @@ from ....utils import fetch
 class Binance(Exchange):
     def get_prices(self):
         # prices = fetch(tickers)
-        print('binance prices')
+        return {
+            'result': {
+                'BTC': 9200
+            }
+        }

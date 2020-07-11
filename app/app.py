@@ -7,10 +7,17 @@ class App():
         init_database = Database()
         init_database.start_connection()
 
-        client = ExchangeClient()
-        provider = client.provider
+        clientB = ExchangeClient('binance')
+        clientL = ExchangeClient('localbitcoins')
 
-        provider.get_prices()
+        providerB = clientB.provider
+        providerL = clientL.provider
+
+        pricesB = providerB.get_prices()
+        print(pricesB)
+
+        pricesL = providerL.get_prices()
+        print(pricesL)
 
         # init_server = Server()
         # init_server.connection = init_database
