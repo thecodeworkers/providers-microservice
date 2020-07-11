@@ -4,9 +4,10 @@ from ....utils import fetch
 
 class Localbitcoins(Exchange):
     def get_prices(self):
-        # prices = fetch(tickers)
+        prices = fetch(tickers)
+
         return {
             'result': {
-                'BTC': 9300
+                'BTC': prices['USD']['avg_1h']
             }
         }
