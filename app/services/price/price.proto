@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+message PriceRequest {
+  required string exchange = 1;
+}
+
+message PriceObject {
+  required string currency = 1;
+  required string price = 2;
+}
+
+message PriceMultipleResponse {
+  repeated PriceObject prices = 1;
+}
+
+service Price {
+  rpc get_all (PriceRequest) returns (PriceMultipleResponse);
+}
