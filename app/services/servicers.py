@@ -1,2 +1,4 @@
+from .price import start_price_service
+
 def start_all_servicers():
-    pass
+    start_price_service()
