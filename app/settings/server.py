@@ -1,4 +1,4 @@
-from ..services import grpc_server, start_all_servicers
+from ..services import grpc_server, service_bus, start_all_servicers, start_all_emiters
 from ..constants import SECURE_SERVER, HOST
 import time
 import sys
@@ -11,6 +11,8 @@ class Server():
 
     def start_server(self):
         start_all_servicers()
+        start_all_emiters()
+
         self.__set_correct_server()
 
     def __set_private_keys(self):
@@ -40,16 +42,27 @@ class Server():
                 print("The server was secure")
 
             grpc_server.start()
-            print('Starting server. Listening on port 50051.')
+            print('Starting server. Listening on port 50052.')
             self.__loop_server()
 
         except Exception as error:
             print(error)
+    
+    def __determinate_loop(self):
+        status = service_bus.status()
+
+        if status:
+            service_bus.start()
+        else:
+            while True:
+                time.sleep(1)
 
     def __loop_server(self):
         try:
-            while True:
-                time.sleep(1)
+            self.__determinate_loop()
+
         except KeyboardInterrupt:
             grpc_server.stop(0)
+            service_bus.stop()
+            service_bus.close_connection()
             self.connection.close_connection()

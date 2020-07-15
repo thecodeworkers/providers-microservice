@@ -1,5 +1,5 @@
 from google.protobuf.json_format import MessageToDict
-from ..bootstrap import grpc_server
+from ..bootstrap import grpc_server, service_bus
 from ...protos import PriceServicer, PriceMultipleResponse, PriceRequest, add_PriceServicer_to_server
 from ...platforms import ExchangeClient
 from ...servicebus import ServiceBus
@@ -12,10 +12,9 @@ class PriceService(PriceServicer):
         all_prices = provider.get_prices()
         all_prices = all_prices['result']
 
-        response_rpc = ServiceBus()
-        response = response_rpc.receive('currencies')
+        response = service_bus.receive('currencies')
+        service_bus.stop()
         currency_symbol = response[0]['symbol']
-
 
         response = PriceMultipleResponse(prices=[
             {
