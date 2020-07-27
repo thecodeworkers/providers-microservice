@@ -11,6 +11,9 @@
 # PARA MAS INFORMACION DE ESTE COMANDO VISITAR EL LINK               #
 # https://docs.docker.com/engine/reference/run/                      #
 #                                                                    #
+# PARA CORRER UN COMANDO DENTRO DEL CONTENEDOR SE EJECUTA EL COMANDO #
+# docker exec -it [Nombre de contenedor] [comando]                   #
+#                                                                    #
 # DESARROLLADOR POR: JORGE BASTIDAS                                  #
 ######################################################################
 
