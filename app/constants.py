@@ -16,3 +16,7 @@ MAX_WORKERS = int(os.getenv('MAX_WORKERS', 5))
 HOST = os.getenv('HOST', '[::]:50052')
 
 SERVICEBUS_HOST = os.getenv('SERVICEBUS_HOST', 'localhost')
+
+LOCALBITCOINS_URI = os.getenv('LOCALBITCOINS_URI', 'https://localbitcoins.com/')
+LOCALBITCOINS_APIKEY = os.getenv('LOCALBITCOINS_APIKEY', '')
+LOCALBITCOINS_APISECRET = os.getenv('LOCALBITCOINS_APISECRET', '')
