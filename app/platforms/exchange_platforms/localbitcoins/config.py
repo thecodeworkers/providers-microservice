@@ -3,16 +3,16 @@ import hmac
 import time
 import hashlib
 
-def generate_headers(api_endpoint, method=''):
-    nonce = int(time.time())
-    nonce = str(nonce)
-    message = nonce + LOCALBITCOINS_APIKEY + api_endpoint + method
-    message_bytes = message.encode('utf-8')
+def generate_headers(api_endpoint, params=None):
+    nonce = str(int(time.time() * 1000)).encode('ascii')
+    message = nonce + LOCALBITCOINS_APIKEY.encode('ascii') + api_endpoint.encode('ascii')
 
-    signature = hmac.new(LOCALBITCOINS_APISECRET.encode('utf-8'), msg=message_bytes, digestmod=hashlib.sha256).hexdigest().upper()
+    if params:
+        message += params.encode('ascii')
+
+    signature = hmac.new(LOCALBITCOINS_APISECRET.encode('utf-8'), msg=message, digestmod=hashlib.sha256).hexdigest().upper()
 
     return {
-        'Content-Type': 'application/x-www-form-urlencoded',
         'Apiauth-Key': LOCALBITCOINS_APIKEY,
         'Apiauth-Nonce': nonce,
         'Apiauth-Signature': signature

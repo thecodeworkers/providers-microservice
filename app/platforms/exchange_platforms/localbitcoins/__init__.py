@@ -1,7 +1,7 @@
-from .path import tickers, HOST_URI, notifications_path
+from .path import tickers, HOST_URI, send_path
 from .config import generate_headers
 from ...interfaces import Exchange
-from ....utils import fetch
+from ....utils import Fetch
 
 class Localbitcoins(Exchange):
     def get_prices(self):
@@ -13,8 +13,17 @@ class Localbitcoins(Exchange):
             }
         }
 
-    def send(self):
-        headers = generate_headers(f'/{notifications_path}')
-        notifications = fetch(f'{HOST_URI}{notifications_path}', None, headers)
+    def send(self, body):
+        try:
+            fetch = Fetch(f'{HOST_URI}{send_path}', 'POST', body)
+            params = fetch.prepare()
 
-        print(notifications)
+            headers = generate_headers(f'/{send_path}', params)
+            fetch._headers = headers
+
+            send = fetch.send()
+
+            return { 'result': send['data']['message'] }
+        
+        except Exception as error:
+            print(error)

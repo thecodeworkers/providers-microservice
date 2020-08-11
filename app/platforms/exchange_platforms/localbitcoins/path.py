@@ -5,4 +5,4 @@ api_path = 'api/'
 average_prefix = 'bitcoinaverage/'
 
 tickers = f'{HOST_URI}{average_prefix}ticker-all-currencies/'
-notifications_path = f'{api_path}notifications/'
+send_path = f'{api_path}wallet-send/'

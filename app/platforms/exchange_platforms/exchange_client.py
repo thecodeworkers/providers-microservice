@@ -16,5 +16,5 @@ class ExchangeClient():
             exchange_class = dynamic_import(f'app.platforms.exchange_platforms.{self._provider_name}.{class_name}')
             self.provider = exchange_class()
 
-        except Exception as e:
-            print(e)
+        except Exception as error:
+            return error
