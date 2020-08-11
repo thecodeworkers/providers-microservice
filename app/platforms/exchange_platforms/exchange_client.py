@@ -17,4 +17,4 @@ class ExchangeClient():
             self.provider = exchange_class()
 
         except Exception as error:
-            return error
+            raise Exception(error)

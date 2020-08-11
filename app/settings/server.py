@@ -32,7 +32,7 @@ class Server():
 
     def __set_correct_server(self):
         try:
-            if self.__secure_server == 'False': 
+            if self.__secure_server == 'False':
                 grpc_server.add_insecure_port(HOST)
                 print("The server was unsecure")
 

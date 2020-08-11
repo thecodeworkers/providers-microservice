@@ -26,4 +26,4 @@ class Localbitcoins(Exchange):
             return { 'result': send['data']['message'] }
         
         except Exception as error:
-            print(error)
+            raise Exception(error)

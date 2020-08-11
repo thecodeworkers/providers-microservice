@@ -28,4 +28,4 @@ class Fetch():
             return response
 
         except requests.exceptions.RequestException as e:
-            return response
+            raise Exception(response)
