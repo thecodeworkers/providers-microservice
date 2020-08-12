@@ -1,11 +1,31 @@
 import requests
 
-def fetch(uri, params=None, headers=None):
-    try:
-        req = requests.get(uri, params=params, headers=headers)
-        req.raise_for_status()
+class Fetch():
+    def __init__(self, uri, method='GET', data=None, params=None, headers=None):
+        self._uri = uri
+        self._method = method
+        self._data = data
+        self._params = params
+        self._headers = headers
 
-        return req.json()
+    def prepare(self):
+        try:
+            prepare_request = requests.Request(self._method, self._uri, data=self._data, headers=self._headers).prepare()
+            params_encoded = prepare_request.body
 
-    except requests.exceptions.RequestException as e:
-        return e
+            return params_encoded
+
+        except Exception as error:
+            return error
+
+    def send(self):
+        try:
+            api_request = requests.request(self._method, self._uri, data=self._data, headers=self._headers)
+            response = api_request.json()
+
+            api_request.raise_for_status()
+
+            return response
+
+        except requests.exceptions.RequestException as e:
+            raise Exception(response)
