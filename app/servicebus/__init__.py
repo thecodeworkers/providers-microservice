@@ -6,11 +6,10 @@ import json
 
 class ServiceBus():
     def __init__(self):
-        # self.__connection = BlockingConnection(ConnectionParameters(host=SERVICEBUS_HOST))
         self.__channel = None
         self.__queues = []
 
-    def init_connection():
+    def init_connection(self):
         self.__connection = BlockingConnection(ConnectionParameters(host=SERVICEBUS_HOST))
         self.__channel = self.__connection.channel()
 
