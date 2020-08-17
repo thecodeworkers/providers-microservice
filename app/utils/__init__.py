@@ -4,3 +4,4 @@ from .pagination import paginate
 from .fetch import Fetch
 from .dynamic_import import dynamic_import
 from .lists import contains
+from .eloquent import update_or_create
