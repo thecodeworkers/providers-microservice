@@ -3,11 +3,11 @@ from .localbitcoins import Localbitcoins
 from ...utils import dynamic_import
 
 class ExchangeClient():
-    _provider_name = ''
+    _provider_name = 'localbitcoins'
     provider = None
 
-    def __init__(self, provider='binance'):
-        self._provider_name = provider
+    def __init__(self, provider):
+        self._provider_name = provider if provider else self._provider_name
         self.__boot()
 
     def __boot(self):
