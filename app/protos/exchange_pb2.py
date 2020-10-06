@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n$app/services/exchange/exchange.proto\"l\n\x11SendCryptoRequest\x12\x1f\n\x08provider\x18\x01 \x01(\t:\rlocalbitcoins\x12\x15\n\x08\x63urrency\x18\x02 \x01(\t:\x03\x42TC\x12\x0f\n\x07\x61\x64\x64ress\x18\x03 \x02(\t\x12\x0e\n\x06\x61mount\x18\x04 \x02(\x01\"$\n\x12SendCryptoResponse\x12\x0e\n\x06result\x18\x01 \x02(\t2B\n\x08\x45xchange\x12\x36\n\x0bsend_crypto\x12\x12.SendCryptoRequest\x1a\x13.SendCryptoResponse'
+  serialized_pb=b'\n$app/services/exchange/exchange.proto\"K\n\x11SendCryptoRequest\x12\x15\n\x08\x63urrency\x18\x01 \x01(\t:\x03\x42TC\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x02(\t\x12\x0e\n\x06\x61mount\x18\x03 \x02(\x01\"$\n\x12SendCryptoResponse\x12\x0e\n\x06result\x18\x01 \x02(\t2B\n\x08\x45xchange\x12\x36\n\x0bsend_crypto\x12\x12.SendCryptoRequest\x1a\x13.SendCryptoResponse'
 )
 
 
@@ -34,29 +34,22 @@ _SENDCRYPTOREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='provider', full_name='SendCryptoRequest.provider', index=0,
+      name='currency', full_name='SendCryptoRequest.currency', index=0,
       number=1, type=9, cpp_type=9, label=1,
-      has_default_value=True, default_value=b"localbitcoins".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='currency', full_name='SendCryptoRequest.currency', index=1,
-      number=2, type=9, cpp_type=9, label=1,
       has_default_value=True, default_value=b"BTC".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='address', full_name='SendCryptoRequest.address', index=2,
-      number=3, type=9, cpp_type=9, label=2,
+      name='address', full_name='SendCryptoRequest.address', index=1,
+      number=2, type=9, cpp_type=9, label=2,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='amount', full_name='SendCryptoRequest.amount', index=3,
-      number=4, type=1, cpp_type=5, label=2,
+      name='amount', full_name='SendCryptoRequest.amount', index=2,
+      number=3, type=1, cpp_type=5, label=2,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -74,7 +67,7 @@ _SENDCRYPTOREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=40,
-  serialized_end=148,
+  serialized_end=115,
 )
 
 
@@ -105,8 +98,8 @@ _SENDCRYPTORESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=150,
-  serialized_end=186,
+  serialized_start=117,
+  serialized_end=153,
 )
 
 DESCRIPTOR.message_types_by_name['SendCryptoRequest'] = _SENDCRYPTOREQUEST
@@ -136,8 +129,8 @@ _EXCHANGE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=188,
-  serialized_end=254,
+  serialized_start=155,
+  serialized_end=221,
   methods=[
   _descriptor.MethodDescriptor(
     name='send_crypto',

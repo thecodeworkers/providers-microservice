@@ -3,11 +3,14 @@ from grpc import StatusCode
 from ..bootstrap import grpc_server
 from ...protos import ExchangeServicer, add_ExchangeServicer_to_server, SendCryptoResponse
 from ...platforms import ExchangeClient
+from ...utils import parser_context
 
 class ExchangeService(ExchangeServicer):
     def send_crypto(self, request, context):
         try:
-            exchange = ExchangeClient(request.provider)
+            provider_name = parser_context(context, 'provider')
+
+            exchange = ExchangeClient(provider_name)
             provider = exchange.provider
 
             params = MessageToDict(request)

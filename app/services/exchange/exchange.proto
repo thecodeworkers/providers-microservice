@@ -1,10 +1,9 @@
 syntax = "proto2";
 
 message SendCryptoRequest {
-  optional string provider = 1 [default = 'localbitcoins'];
-  optional string currency = 2 [default = 'BTC'];
-  required string address = 3;
-  required double amount = 4;
+  optional string currency = 1 [default = 'BTC'];
+  required string address = 2;
+  required double amount = 3;
 }
 
 message SendCryptoResponse {
