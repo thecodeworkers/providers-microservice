@@ -1,7 +1,7 @@
 from .path import tickers, HOST_URI, send_path
 from .config import generate_headers
 from ...interfaces import Exchange
-from ....utils import Fetch
+from ....utils import Fetch, response
 
 class Localbitcoins(Exchange):
     def get_prices(self):
@@ -23,7 +23,7 @@ class Localbitcoins(Exchange):
 
             send = fetch.send()
 
-            return { 'result': send['data']['message'] }
-        
+            return response(send['data']['message'])
+
         except Exception as error:
             raise Exception(error)
