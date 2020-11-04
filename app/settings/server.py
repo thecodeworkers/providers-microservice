@@ -1,6 +1,6 @@
-from ..services import grpc_server, service_bus, start_all_servicers, start_all_emiters
+from ..services import grpc_server, service_bus, start_all_servicers, start_all_emiters, start_all_websockets
 from ..constants import SECURE_SERVER, HOST
-from .logger import logging
+# from .logger import logging
 import grpc
 import time
 import sys
@@ -15,8 +15,12 @@ class Server():
     def start_server(self):
         start_all_servicers()
         start_all_emiters()
+        start_all_websockets()
 
         self.__set_correct_server()
+
+    def start_websocket(self):
+        pass
 
     def __set_private_keys(self):
         with open('keys/private.key', 'rb') as f:
@@ -35,19 +39,19 @@ class Server():
         try:
             if self.__secure_server == 'False':
                 grpc_server.add_insecure_port(HOST)
-                logging.info('The server was unsecure')
+                print('The server was unsecure')
 
             if self.__secure_server == 'True':
                 credentials = self.__set_private_keys()
                 grpc_server.add_secure_port(HOST, credentials)
-                logging.info('The server was secure')
+                print('The server was secure')
 
             grpc_server.start()
-            logging.info(f'Starting server. Listening on {HOST}')
+            print(f'Starting server. Listening on {HOST}')
             self.__loop_server()
 
         except Exception as error:
-            logging.error(error)
+            print(error)
 
     def __determinate_loop(self):
         status = service_bus.status()

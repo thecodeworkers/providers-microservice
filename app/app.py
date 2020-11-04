@@ -10,3 +10,4 @@ class App():
         init_server = Server()
         init_server.connection = init_database
         init_server.start_server()
+        # init_server.start_websocket()
