@@ -1,2 +1,4 @@
 from .exchange_pb2_grpc import ExchangeServicer, add_ExchangeServicer_to_server
 from .exchange_pb2 import SendCryptoResponse
+from .websocket_pb2_grpc import WebsocketsServicer, add_WebsocketsServicer_to_server
+from .websocket_pb2 import SendWebsocketResponse

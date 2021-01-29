@@ -1,1 +1,1 @@
-from .binance_websocket import binance_websocket
+from .websocket_service import start_websocket_service
