@@ -11,6 +11,7 @@ class WebsocketClient():
 
     def websocket(self):
         data = {
+            # 'active': True
             'active': False
         }
 
