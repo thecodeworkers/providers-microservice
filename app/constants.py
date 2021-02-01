@@ -23,4 +23,3 @@ LOCALBITCOINS_APIKEY = os.getenv('LOCALBITCOINS_APIKEY', '')
 LOCALBITCOINS_APISECRET = os.getenv('LOCALBITCOINS_APISECRET', '')
 
 BINANCE_URL = "wss://stream.binance.com:9443/ws/btcusdt@ticker/ethusdt@ticker/dashusdt@ticker"
-# BINANCE_URL = "wss://stream.binance.com:9443/ws/!ticker@arr"
