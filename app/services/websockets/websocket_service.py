@@ -18,7 +18,6 @@ class WebsocketService(WebsocketsServicer):
         try:
             param = MessageToDict(request)
             if(param['active']):
-                self.flag = True
                 x = threading.Thread(target=self.start_process)
                 x.start()
             else:
@@ -40,16 +39,16 @@ class WebsocketService(WebsocketsServicer):
             coins = service_bus.receive('coins', response)
 
     async def __async_connect(self):
-        print("attempting connection to {}".format(self.URL))
+        self.flag = True
         self.ws = await connect(self.URL)
         print("connected")
+        return self.ws
 
     def __socket_response(self):
         return self.loop.run_until_complete(self.__async_get_data())
 
     def __close_connection(self):
-        self.loop.run_until_complete(self.__async_close())
-        return self.loop.close()
+        return self.loop.run_until_complete(self.__async_close())
 
     async def __async_get_data(self):
         res = await self.ws.recv()
