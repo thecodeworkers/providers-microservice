@@ -20,6 +20,7 @@ class WebsocketService(WebsocketsServicer):
         try:
             param = MessageToDict(request)
             if(param['active']):
+                self.flag = True
                 x = threading.Thread(target=self.start_process)
                 x.start()
             else:
@@ -42,7 +43,6 @@ class WebsocketService(WebsocketsServicer):
 
     async def __async_connect(self):
         print("attempting connection to {}".format(self.URL))
-        self.flag = True
         self.ws = await connect(self.URL)
         print("connected")
 
