@@ -2,11 +2,9 @@ from google.protobuf.json_format import MessageToDict
 from ...protos import WebsocketsServicer, add_WebsocketsServicer_to_server, SendWebsocketResponse
 from ..bootstrap import service_bus, grpc_server
 from ...constants import BINANCE_URL
-import asyncio
+import asyncio, threading, json
 from websockets import connect
-import json
 from ..channel import service_bus_connection
-import threading
 from ...utils import parser_context
 
 class WebsocketService(WebsocketsServicer):
@@ -52,7 +50,6 @@ class WebsocketService(WebsocketsServicer):
     def __close_connection(self):
         self.loop.run_until_complete(self.__async_close())
         return self.loop.close()
-
 
     async def __async_get_data(self):
         res = await self.ws.recv()
