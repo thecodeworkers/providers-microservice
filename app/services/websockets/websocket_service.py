@@ -6,7 +6,7 @@ import asyncio, threading, json
 from websockets import connect
 from ..channel import service_bus_connection
 from ...utils import parser_context
-from ...settings import logging
+from ...settings.logger import logging
 
 class WebsocketService(WebsocketsServicer):
     def __init__(self):
@@ -42,7 +42,7 @@ class WebsocketService(WebsocketsServicer):
     async def __async_connect(self):
         self.flag = True
         self.ws = await connect(self.URL)
-        logging.info('connected')
+        logging.info('Connected')
         return self.ws
 
     def __socket_response(self):
@@ -57,7 +57,7 @@ class WebsocketService(WebsocketsServicer):
 
     async def __async_close(self):
         res = await self.ws.close()
-        logging.info('disconnected')
+        logging.info('Disconnected')
         return res
 
 def start_websocket_service():
