@@ -14,9 +14,9 @@ class WebsocketService(WebsocketsServicer):
         self.ws = None
         self.loop = asyncio.get_event_loop()
         self.flag = False
-        self.__default_inizialitation()
+        self.__default_initialization()
 
-    def __default_inizialitation(self):
+    def __default_initialization(self):
         if self.__default_websocket == 'True': self.__start_thread()
 
     def activate_websocket(self, request, context):
