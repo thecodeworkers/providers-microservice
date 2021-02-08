@@ -6,7 +6,7 @@ import asyncio, threading, json
 from websockets import connect
 from ..channel import service_bus_connection
 from ...utils import parser_context
-# from ...settings.logger import logging
+from ...settings.logger import logging
 class WebsocketService(WebsocketsServicer):
     def __init__(self):
         self.URL = BINANCE_URL
@@ -23,27 +23,23 @@ class WebsocketService(WebsocketsServicer):
         try:
             param = MessageToDict(request)
             result = {"result": "success"}
-            request_param = param['active']
-            lol = False
+            request_activate = param['active']
+            thread_active = False
 
             for thread in threading.enumerate():
-                if thread.name == 'binance':
-                    lol = True
+                if thread.name == 'binance': thread_active = True
 
-            if(request_param and lol == False):
-                print("INIT CONNECTION")
+            if(request_activate and thread_active == False):
                 self.__start_thread()
-            if(request_param and lol):
+            if(request_activate and thread_active):
                 result = {"result": "already active"}
-            if(request_param == False and lol):
-                print("CLOSE CONNECTION")
+            if(request_activate == False and thread_active):
                 self.flag=False
                 self.__close_connection()
 
             return SendWebsocketResponse(**result)
 
         except Exception as error:
-            print("im showing you this error")
             raise Exception(error)
 
     def __start_thread(self):
@@ -52,17 +48,16 @@ class WebsocketService(WebsocketsServicer):
 
     def start_process(self):
         self.loop.run_until_complete(self.__async_connect())
-        # service_bus.init_connection()
+        service_bus.init_connection()
 
         while self.flag:
             response = self.__socket_response()
-            # coins = service_bus.receive('coins', response)
+            coins = service_bus.receive('coins', response)
 
     async def __async_connect(self):
         self.flag = True
         self.ws = await connect(self.URL)
-        # logging.info('Connected')
-        print('Connected')
+        logging.info('Connected')
         return self.ws
 
     def __socket_response(self):
@@ -73,13 +68,11 @@ class WebsocketService(WebsocketsServicer):
 
     async def __async_get_data(self):
         res = await self.ws.recv()
-        # print(res)
         return json.loads(res)
 
     async def __async_close(self):
         res = await self.ws.close()
-        print('Disconnected')
-        # logging.info('Disconnected')
+        logging.info('Disconnected')
         return res
 
 def start_websocket_service():
