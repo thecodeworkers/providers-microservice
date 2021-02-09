@@ -7,17 +7,35 @@ from websockets import connect
 from ..channel import service_bus_connection
 from ...utils import parser_context
 from ...settings.logger import logging
+
 class WebsocketService(WebsocketsServicer):
     def __init__(self):
         self.URL = BINANCE_URL
-        self.__default_websocket = DEFAULT_WEBSOCKET
         self.ws = None
         self.loop = asyncio.get_event_loop()
         self.flag = False
-        self.__default_initialization()
+        self.__default_initialization(DEFAULT_WEBSOCKET)
 
-    def __default_initialization(self):
-        if self.__default_websocket == 'True': self.__start_thread()
+    def __default_initialization(self, start):
+        if start == True:
+            try:
+                self.__construct_url_coins()
+                self.__start_thread()
+
+            except Exception as error:
+                raise Exception(error)
+
+    def __construct_url_coins(self):
+        service_bus.init_connection()
+        current_coins = service_bus.receive('get_coins')
+        service_bus.stop()
+        service_bus.close_connection()
+
+        self.URL = self.URL + '/'.join(map(self.__url_concatenation, current_coins))
+
+    def __url_concatenation(self, value):
+        symbol = value['symbol'].lower()
+        return symbol + 'usdt@ticker'
 
     def activate_websocket(self, request, context):
         try:
@@ -29,12 +47,11 @@ class WebsocketService(WebsocketsServicer):
             for thread in threading.enumerate():
                 if thread.name == 'binance': thread_active = True
 
-            if(request_activate and thread_active == False):
-                self.__start_thread()
-            if(request_activate and thread_active):
-                result = {"result": "already active"}
-            if(request_activate == False and thread_active):
+            if(request_activate and not thread_active): self.__default_initialization(True)
+            if(request_activate and thread_active): result = {"result": "already active"}
+            if(not request_activate and thread_active):
                 self.flag=False
+                self.URL = BINANCE_URL
                 self.__close_connection()
 
             return SendWebsocketResponse(**result)
@@ -53,6 +70,9 @@ class WebsocketService(WebsocketsServicer):
         while self.flag:
             response = self.__socket_response()
             coins = service_bus.receive('coins', response)
+
+        service_bus.stop()
+        service_bus.close_connection()
 
     async def __async_connect(self):
         self.flag = True
