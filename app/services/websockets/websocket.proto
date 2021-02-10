@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+message SendWebsocketRequest {
+  required bool active = 1 [default = true];
+}
+
+message SendWebsocketResponse {
+  required string result = 1;
+}
+
+service Websockets {
+  rpc activate_websocket (SendWebsocketRequest) returns (SendWebsocketResponse);
+}
