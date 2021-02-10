@@ -40,7 +40,7 @@ class WebsocketService(WebsocketsServicer):
     def activate_websocket(self, request, context):
         try:
             param = MessageToDict(request)
-            result = {"result": "success"}
+            result = {'result': 'success'}
             request_activate = param['active']
             thread_active = False
 
@@ -48,7 +48,7 @@ class WebsocketService(WebsocketsServicer):
                 if thread.name == 'binance': thread_active = True
 
             if(request_activate and not thread_active): self.__default_initialization(True)
-            if(request_activate and thread_active): result = {"result": "already active"}
+            if(request_activate and thread_active): result = {'result': 'already active'}
             if(not request_activate and thread_active):
                 self.flag=False
                 self.URL = BINANCE_URL
