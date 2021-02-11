@@ -76,7 +76,7 @@ class WebsocketService(WebsocketsServicer):
 
     async def __async_connect(self):
         self.flag = True
-        self.ws = await connect(self.URL)
+        self.ws = await connect(self.URL, ping_interval=None, ping_timeout=None)
         logging.info('Connected')
         return self.ws
 
