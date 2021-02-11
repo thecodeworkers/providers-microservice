@@ -6,7 +6,7 @@ import asyncio, threading, json
 from websockets import connect
 from ..channel import service_bus_connection
 from ...utils import parser_context
-from ...settings.logger import logging
+# from ...settings.logger import logging
 
 class WebsocketService(WebsocketsServicer):
     def __init__(self):
@@ -17,7 +17,7 @@ class WebsocketService(WebsocketsServicer):
         self.__default_initialization(DEFAULT_WEBSOCKET)
 
     def __default_initialization(self, start):
-        if start == True:
+        if start == 'True':
             try:
                 self.__construct_url_coins()
                 self.__start_thread()
@@ -28,6 +28,7 @@ class WebsocketService(WebsocketsServicer):
     def __construct_url_coins(self):
         service_bus.init_connection()
         current_coins = service_bus.receive('get_coins')
+        print(current_coins)
         service_bus.stop()
         service_bus.close_connection()
 
@@ -69,6 +70,7 @@ class WebsocketService(WebsocketsServicer):
 
         while self.flag:
             response = self.__socket_response()
+            print(response)
             coins = service_bus.receive('coins', response)
 
         service_bus.stop()
@@ -77,7 +79,8 @@ class WebsocketService(WebsocketsServicer):
     async def __async_connect(self):
         self.flag = True
         self.ws = await connect(self.URL)
-        logging.info('Connected')
+        # logging.info('Connected')
+        print('Connected')
         return self.ws
 
     def __socket_response(self):
@@ -92,7 +95,8 @@ class WebsocketService(WebsocketsServicer):
 
     async def __async_close(self):
         res = await self.ws.close()
-        logging.info('Disconnected')
+        # logging.info('Disconnected')
+        print('Disconnected')
         return res
 
 def start_websocket_service():
