@@ -6,7 +6,7 @@ import asyncio, threading, json
 from websockets import connect
 from ..channel import service_bus_connection
 from ...utils import parser_context
-# from ...settings.logger import logging
+from ...settings.logger import logging
 
 class WebsocketService(WebsocketsServicer):
     def __init__(self):
@@ -28,7 +28,6 @@ class WebsocketService(WebsocketsServicer):
     def __construct_url_coins(self):
         service_bus.init_connection()
         current_coins = service_bus.receive('get_coins')
-        print(current_coins)
         service_bus.stop()
         service_bus.close_connection()
 
@@ -48,7 +47,7 @@ class WebsocketService(WebsocketsServicer):
             for thread in threading.enumerate():
                 if thread.name == 'binance': thread_active = True
 
-            if(request_activate and not thread_active): self.__default_initialization(True)
+            if(request_activate and not thread_active): self.__default_initialization('True')
             if(request_activate and thread_active): result = {'result': 'already active'}
             if(not request_activate and thread_active):
                 self.flag=False
@@ -70,7 +69,6 @@ class WebsocketService(WebsocketsServicer):
 
         while self.flag:
             response = self.__socket_response()
-            print(response)
             coins = service_bus.receive('coins', response)
 
         service_bus.stop()
@@ -79,8 +77,7 @@ class WebsocketService(WebsocketsServicer):
     async def __async_connect(self):
         self.flag = True
         self.ws = await connect(self.URL)
-        # logging.info('Connected')
-        print('Connected')
+        logging.info('Connected')
         return self.ws
 
     def __socket_response(self):
@@ -95,8 +92,7 @@ class WebsocketService(WebsocketsServicer):
 
     async def __async_close(self):
         res = await self.ws.close()
-        # logging.info('Disconnected')
-        print('Disconnected')
+        logging.info('Disconnected')
         return res
 
 def start_websocket_service():
