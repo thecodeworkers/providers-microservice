@@ -17,7 +17,7 @@ class WebsocketService(WebsocketsServicer):
         self.__default_initialization(DEFAULT_WEBSOCKET)
 
     def __default_initialization(self, start):
-        if start == True:
+        if start == 'True':
             try:
                 self.__construct_url_coins()
                 self.__start_thread()
@@ -47,7 +47,7 @@ class WebsocketService(WebsocketsServicer):
             for thread in threading.enumerate():
                 if thread.name == 'binance': thread_active = True
 
-            if(request_activate and not thread_active): self.__default_initialization(True)
+            if(request_activate and not thread_active): self.__default_initialization('True')
             if(request_activate and thread_active): result = {'result': 'already active'}
             if(not request_activate and thread_active):
                 self.flag=False
@@ -76,7 +76,7 @@ class WebsocketService(WebsocketsServicer):
 
     async def __async_connect(self):
         self.flag = True
-        self.ws = await connect(self.URL)
+        self.ws = await connect(self.URL, ping_interval=None, ping_timeout=None)
         logging.info('Connected')
         return self.ws
 
